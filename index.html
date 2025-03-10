@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medibank Staff Knowledge Base</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SF Pro Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap">
+    
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f5f7;
+        }
+        
+        .mac-window {
+            width: 1728px; /* MacBook Pro 16" width */
+            height: 1117px; /* MacBook Pro 16" height */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+
+        .mac-titlebar {
+            background: #f5f5f7;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close { background: #ff5f57; }
+        .minimize { background: #febc2e; }
+        .maximize { background: #28c840; }
+
+        .search-bar {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .search-bar:focus-within {
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        .kb-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .kb-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 状态切换样式 */
+        .home-view { display: none; }
+        .kb-view { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="mac-window">
+        <!-- macOS 标题栏 -->
+        <div class="mac-titlebar">
+            <div class="window-controls">
+                <div class="control-btn close"></div>
+                <div class="control-btn minimize"></div>
+                <div class="control-btn maximize"></div>
+            </div>
+        </div>
+
+        <!-- 主导航栏 -->
+        <nav class="bg-white border-b border-gray-200 px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-home-alt text-blue-500"></i>
+                        <span class="text-sm font-medium text-gray-500">Staff Portal</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="fas fa-user-circle text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主页视图 -->
+        <div class="home-view active p-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- 欢迎语 -->
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-semibold text-gray-800 mb-2">Welcome Aria!</h1>
+                    <p class="text-gray-600">How can I help you today?</p>
+                </div>
+                
+                <!-- 搜索栏 -->
+                <div class="flex items-center justify-center mb-12">
+                    <div class="relative w-2/3">
+                        <input type="text" placeholder="Search anything..." class="search-bar w-full py-3 px-4 pr-12">
+                        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button onclick="switchView('kb')" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        Ask AI
+                    </button>
+                </div>
+
+                <!-- 企业新闻区域 -->
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Company News</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800" alt="News" class="w-20 h-20 object-cover rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">New Health Insurance Benefits for 2024</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Updated coverage plans and enhanced benefits for members...</p>
+                                    <span class="text-xs text-blue-500 mt-2 block">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800" alt="News" class="w-20 h-20 object-cover rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">Q1 2024 Performance Report</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Medibank achieves strong growth in first quarter...</p>
+                                    <span class="text-xs text-blue-500 mt-2 block">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Quick Links</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
+                                <span>My Schedule</span>
+                            </a>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-green-50 transition-colors">
+                                <i class="fas fa-tasks text-green-500 mr-3"></i>
+                                <span>Tasks</span>
+                            </a>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-purple-50 transition-colors">
+                                <i class="fas fa-file-alt text-purple-500 mr-3"></i>
+                                <span>Documents</span>
+                            </a>
+                            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-orange-50 transition-colors">
+                                <i class="fas fa-users text-orange-500 mr-3"></i>
+                                <span>Team</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 其他模块 -->
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Training</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-orange-50">
+                                <span>Compliance Training</span>
+                                <span class="text-orange-500">Due in 5 days</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-green-50">
+                                <span>New System Introduction</span>
+                                <span class="text-green-500">Completed</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-blue-50">
+                                <span>Customer Service Skills</span>
+                                <span class="text-blue-500">New</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Team Updates</h2>
+                        <div class="space-y-4">
+                            <div class="flex -space-x-2 mb-4">
+                                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="User">
+                                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="User">
+                                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="User">
+                                <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs">+3</div>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>Team meeting at 2:00 PM</p>
+                                <p class="mt-2">Project deadline: March 15</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Resources</h2>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-blue-500 hover:underline">Employee Handbook</a>
+                            <a href="#" class="block text-blue-500 hover:underline">IT Support</a>
+                            <a href="#" class="block text-blue-500 hover:underline">HR Portal</a>
+                            <a href="#" class="block text-blue-500 hover:underline">Benefits Guide</a>
+                            <a href="#" class="block text-blue-500 hover:underline">Training Portal</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 新增：最近活动 -->
+                <div class="mt-8">
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4 text-blue-700">Recent Activities</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-file-alt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Document Updated</h3>
+                                    <p class="text-sm text-gray-500">You updated "Q1 Sales Report"</p>
+                                </div>
+                                <span class="text-xs text-gray-400 ml-auto">2 hours ago</span>
+                            </div>
+                            <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Task Completed</h3>
+                                    <p class="text-sm text-gray-500">Completed "Monthly Review"</p>
+                                </div>
+                                <span class="text-xs text-gray-400 ml-auto">Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 知识库视图 -->
+        <div class="kb-view p-8">
+            <div class="flex h-full">
+                <!-- 左侧区域 -->
+                <div class="w-2/3 pr-8">
+                    <!-- 搜索栏 -->
+                    <div class="mb-8">
+                        <div class="relative">
+                            <input type="text" placeholder="Ask anything about Medibank..." class="search-bar w-full py-3 px-4 pr-12" id="kb-search">
+                            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 欢迎语 -->
+                    <div class="kb-card p-6" id="welcome-message">
+                        <h1 class="text-2xl font-semibold mb-4">Welcome to Medibank Knowledge Base</h1>
+                        <p class="text-gray-600">I'm here to help you find the information you need. Please select your preferred knowledge bases from the right panel before we start.</p>
+                    </div>
+
+                    <!-- 答案区域 (初始隐藏) -->
+                    <div class="kb-card p-6 mt-6 hidden" id="answer-card">
+                        <h2 class="text-xl font-semibold mb-4">Suggested Answer</h2>
+                        <div class="prose max-w-none">
+                            <p class="text-gray-700">Your answer will appear here...</p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t">
+                            <h3 class="font-medium mb-2">References:</h3>
+                            <ul class="space-y-2 text-sm text-blue-500">
+                                <li><a href="#" class="hover:underline">Internal Policy Document #123</a></li>
+                                <li><a href="#" class="hover:underline">Healthcare Guidelines 2024</a></li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 flex justify-end">
+                            <div class="relative">
+                                <button class="px-4 py-2 text-gray-600 hover:text-gray-800 border rounded-lg" id="assign-btn">
+                                    Assign to...
+                                </button>
+                                <!-- 下拉菜单 -->
+                                <div class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border" id="assign-dropdown">
+                                    <div class="p-2">
+                                        <input type="text" placeholder="Search by name or email..." class="w-full px-3 py-2 border rounded-md mb-2">
+                                        <div class="max-h-40 overflow-y-auto">
+                                            <div class="p-2 hover:bg-gray-50 cursor-pointer">john.doe@medibank.com</div>
+                                            <div class="p-2 hover:bg-gray-50 cursor-pointer">sarah.smith@medibank.com</div>
+                                        </div>
+                                        <button class="w-full mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="send-btn">
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 新增：相关文档 -->
+                    <div class="kb-card p-6 mt-6 hidden" id="related-docs">
+                        <h2 class="text-xl font-semibold mb-4">Related Documents</h2>
+                        <div class="space-y-6">
+                            <div class="p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-lg">Employee Health Insurance Policy 2024</h3>
+                                    <span class="text-sm text-gray-500">Updated: Mar 1, 2024</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-3">Comprehensive guide to employee health insurance benefits, coverage details, and claim procedures.</p>
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                                    <span>PDF • 2.3 MB</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-lg">Healthcare Benefits Guide</h3>
+                                    <span class="text-sm text-gray-500">Updated: Feb 15, 2024</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-3">Detailed overview of healthcare benefits, including coverage limits, exclusions, and special provisions.</p>
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-file-word text-blue-500 mr-2"></i>
+                                    <span>DOC • 1.5 MB</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-lg">Claims Processing Guidelines</h3>
+                                    <span class="text-sm text-gray-500">Updated: Jan 30, 2024</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-3">Step-by-step guide for processing health insurance claims, including required documentation and timelines.</p>
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-file-powerpoint text-orange-500 mr-2"></i>
+                                    <span>PPT • 3.1 MB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧知识库选择区域 -->
+                <div class="w-1/3">
+                    <div class="kb-card p-6">
+                        <h2 class="text-xl font-semibold mb-4">Knowledge Base Selection</h2>
+                        <form id="kb-selection">
+                            <!-- 部门知识库 -->
+                            <div class="mb-6">
+                                <h3 class="font-medium mb-3">Department Knowledge Base</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">HR Department</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">IT Support</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Customer Service</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 公司政策 -->
+                            <div class="mb-6">
+                                <h3 class="font-medium mb-3">Company Policies</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Employee Handbook</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Security Policies</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 国家政策 -->
+                            <div class="mb-6">
+                                <h3 class="font-medium mb-3">National Policies</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Healthcare Regulations</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Insurance Laws</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 通用知识库 -->
+                            <div class="mb-6">
+                                <h3 class="font-medium mb-3">General Knowledge Base</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Product Information</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <span class="ml-2">Service Guidelines</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex space-x-4">
+                                <button type="button" class="px-4 py-2 border rounded-lg hover:bg-gray-50" id="reset-btn">
+                                    Reset
+                                </button>
+                                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" id="save-btn">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 视图切换
+        function switchView(view) {
+            document.querySelector('.home-view').classList.remove('active');
+            document.querySelector('.kb-view').classList.remove('active');
+            
+            if (view === 'home') {
+                document.querySelector('.home-view').classList.add('active');
+            } else if (view === 'kb') {
+                document.querySelector('.kb-view').classList.add('active');
+            }
+        }
+
+        // 知识库选择相关
+        const resetBtn = document.getElementById('reset-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const kbSearch = document.getElementById('kb-search');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const answerCard = document.getElementById('answer-card');
+        const assignBtn = document.getElementById('assign-btn');
+        const assignDropdown = document.getElementById('assign-dropdown');
+        const sendBtn = document.getElementById('send-btn');
+
+        let kbSelected = false;
+
+        resetBtn.addEventListener('click', () => {
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            kbSelected = false;
+            kbSearch.disabled = true;
+            welcomeMessage.style.display = 'block';
+            answerCard.style.display = 'none';
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkedBoxes.length > 0) {
+                kbSelected = true;
+                kbSearch.disabled = false;
+                welcomeMessage.innerHTML = `
+                    <h1 class="text-2xl font-semibold mb-4">I've recorded your knowledge base preferences</h1>
+                    <p class="text-gray-600">You can now start asking questions using the search bar above.</p>
+                `;
+            } else {
+                alert('Please select at least one knowledge base.');
+            }
+        });
+
+        kbSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && kbSelected) {
+                welcomeMessage.style.display = 'none';
+                answerCard.style.display = 'block';
+                document.getElementById('related-docs').style.display = 'block'; // 显示相关文档
+            } else if (e.key === 'Enter' && !kbSelected) {
+                alert('Please set up your knowledge base preferences first.');
+            }
+        });
+
+        // Assign 功能
+        assignBtn.addEventListener('click', () => {
+            assignDropdown.classList.toggle('hidden');
+        });
+
+        sendBtn.addEventListener('click', () => {
+            assignDropdown.classList.add('hidden');
+            assignBtn.textContent = 'SENT';
+            assignBtn.disabled = true;
+        });
+
+        // 点击其他地方关闭下拉菜单
+        document.addEventListener('click', (e) => {
+            if (!assignBtn.contains(e.target) && !assignDropdown.contains(e.target)) {
+                assignDropdown.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html> 
