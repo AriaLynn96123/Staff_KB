@@ -294,20 +294,33 @@
                                 <li><a href="#" class="hover:underline">Healthcare Guidelines 2024</a></li>
                             </ul>
                         </div>
-                        <div class="mt-4 flex justify-end">
+                        <div class="mt-4 flex justify-end items-center space-x-4">
+                            <!-- 操作按钮 -->
+                            <button class="text-gray-600 hover:text-blue-500 transition-colors" title="Like">
+                                <i class="far fa-thumbs-up"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-red-500 transition-colors" title="Dislike">
+                                <i class="far fa-thumbs-down"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-green-500 transition-colors" title="Copy">
+                                <i class="far fa-copy"></i>
+                            </button>
                             <div class="relative">
-                                <button class="px-4 py-2 text-gray-600 hover:text-gray-800 border rounded-lg" id="assign-btn">
-                                    Assign to...
+                                <button class="text-gray-600 hover:text-blue-500 transition-colors" id="share-btn" title="Share">
+                                    <span class="flex items-center">
+                                        <i class="far fa-share-square mr-1"></i>
+                                        <span class="share-text">Share</span>
+                                    </span>
                                 </button>
-                                <!-- 下拉菜单 -->
-                                <div class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border" id="assign-dropdown">
+                                <!-- 分享下拉菜单 -->
+                                <div class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border" id="share-dropdown">
                                     <div class="p-2">
                                         <input type="text" placeholder="Search by name or email..." class="w-full px-3 py-2 border rounded-md mb-2">
                                         <div class="max-h-40 overflow-y-auto">
                                             <div class="p-2 hover:bg-gray-50 cursor-pointer">john.doe@medibank.com</div>
                                             <div class="p-2 hover:bg-gray-50 cursor-pointer">sarah.smith@medibank.com</div>
                                         </div>
-                                        <button class="w-full mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="send-btn">
+                                        <button class="w-full mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="send-share-btn">
                                             Send
                                         </button>
                                     </div>
@@ -361,6 +374,52 @@
 
                 <!-- 右侧知识库选择区域 -->
                 <div class="w-1/3">
+                    <!-- 搜索类型和知识关联度选择 -->
+                    <div class="kb-card p-6 mb-4">
+                        <!-- 搜索类型选择 -->
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-3">Search Type</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="search-type" value="comprehensive" class="form-radio text-blue-500" checked>
+                                    <span class="ml-2">Comprehensive Search</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="search-type" value="precise" class="form-radio text-blue-500">
+                                    <span class="ml-2">Precise Search</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="search-type" value="extended" class="form-radio text-blue-500">
+                                    <span class="ml-2">Extended Search</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 知识关联度选择 -->
+                        <div>
+                            <h3 class="font-medium mb-3">Knowledge Relation</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="knowledge-relation" value="default" class="form-radio text-blue-500" checked>
+                                    <span class="ml-2">Default</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="knowledge-relation" value="terms" class="form-radio text-blue-500">
+                                    <span class="ml-2">Terms Explanation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="knowledge-relation" value="consultation" class="form-radio text-blue-500">
+                                    <span class="ml-2">Consultation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="knowledge-relation" value="reimbursement" class="form-radio text-blue-500">
+                                    <span class="ml-2">Reimbursement</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 知识库选择 -->
                     <div class="kb-card p-6">
                         <h2 class="text-xl font-semibold mb-4">Knowledge Base Selection</h2>
                         <form id="kb-selection">
@@ -369,15 +428,15 @@
                                 <h3 class="font-medium mb-3">Department Knowledge Base</h3>
                                 <div class="space-y-2">
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">HR Department</span>
                                     </label>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">IT Support</span>
                                     </label>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Customer Service</span>
                                     </label>
                                 </div>
@@ -388,11 +447,11 @@
                                 <h3 class="font-medium mb-3">Company Policies</h3>
                                 <div class="space-y-2">
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Employee Handbook</span>
                                     </label>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Security Policies</span>
                                     </label>
                                 </div>
@@ -403,11 +462,11 @@
                                 <h3 class="font-medium mb-3">National Policies</h3>
                                 <div class="space-y-2">
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Healthcare Regulations</span>
                                     </label>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Insurance Laws</span>
                                     </label>
                                 </div>
@@ -418,11 +477,11 @@
                                 <h3 class="font-medium mb-3">General Knowledge Base</h3>
                                 <div class="space-y-2">
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Product Information</span>
                                     </label>
                                     <label class="flex items-center">
-                                        <input type="checkbox" class="form-checkbox text-blue-500">
+                                        <input type="checkbox" class="form-checkbox text-blue-500" checked>
                                         <span class="ml-2">Service Guidelines</span>
                                     </label>
                                 </div>
@@ -462,61 +521,95 @@
         const kbSearch = document.getElementById('kb-search');
         const welcomeMessage = document.getElementById('welcome-message');
         const answerCard = document.getElementById('answer-card');
-        const assignBtn = document.getElementById('assign-btn');
-        const assignDropdown = document.getElementById('assign-dropdown');
-        const sendBtn = document.getElementById('send-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const shareDropdown = document.getElementById('share-dropdown');
+        const sendShareBtn = document.getElementById('send-share-btn');
 
-        let kbSelected = false;
-
+        // Reset按钮功能
         resetBtn.addEventListener('click', () => {
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            document.querySelectorAll('#kb-selection input[type="checkbox"]').forEach(checkbox => {
                 checkbox.checked = false;
             });
-            kbSelected = false;
-            kbSearch.disabled = true;
-            welcomeMessage.style.display = 'block';
-            answerCard.style.display = 'none';
         });
 
+        // Save按钮功能
         saveBtn.addEventListener('click', () => {
-            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            if (checkedBoxes.length > 0) {
-                kbSelected = true;
-                kbSearch.disabled = false;
-                welcomeMessage.innerHTML = `
-                    <h1 class="text-2xl font-semibold mb-4">I've recorded your knowledge base preferences</h1>
-                    <p class="text-gray-600">You can now start asking questions using the search bar above.</p>
-                `;
-            } else {
-                alert('Please select at least one knowledge base.');
-            }
+            welcomeMessage.innerHTML = `
+                <h1 class="text-2xl font-semibold mb-4">I've recorded your knowledge base preferences</h1>
+                <p class="text-gray-600">You can now start asking questions using the search bar above.</p>
+            `;
         });
 
+        // 搜索功能
         kbSearch.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && kbSelected) {
+            if (e.key === 'Enter') {
                 welcomeMessage.style.display = 'none';
                 answerCard.style.display = 'block';
-                document.getElementById('related-docs').style.display = 'block'; // 显示相关文档
-            } else if (e.key === 'Enter' && !kbSelected) {
-                alert('Please set up your knowledge base preferences first.');
+                document.getElementById('related-docs').style.display = 'block';
             }
         });
 
-        // Assign 功能
-        assignBtn.addEventListener('click', () => {
-            assignDropdown.classList.toggle('hidden');
+        // 页面加载时初始化
+        window.onload = function() {
+            document.querySelector('.nav-link').classList.add('active');
+            
+            // 自动选中所有知识库复选框
+            document.querySelectorAll('#kb-selection input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            // 设置默认搜索类型和知识关联度
+            document.querySelector('input[name="search-type"][value="comprehensive"]').checked = true;
+            document.querySelector('input[name="knowledge-relation"][value="default"]').checked = true;
+        }
+
+        // 分享功能
+        shareBtn.addEventListener('click', () => {
+            // 如果按钮未被禁用才显示下拉菜单
+            if (!shareBtn.disabled) {
+                shareDropdown.classList.toggle('hidden');
+            }
         });
 
-        sendBtn.addEventListener('click', () => {
-            assignDropdown.classList.add('hidden');
-            assignBtn.textContent = 'SENT';
-            assignBtn.disabled = true;
+        sendShareBtn.addEventListener('click', () => {
+            shareDropdown.classList.add('hidden');
+            
+            // 更新分享按钮状态
+            shareBtn.innerHTML = `
+                <span class="flex items-center">
+                    <i class="fas fa-check mr-1"></i>
+                    <span class="share-text">Sent</span>
+                </span>
+            `;
+            shareBtn.classList.remove('hover:text-blue-500');
+            shareBtn.classList.add('text-green-500');
+            shareBtn.disabled = true;
+            
+            // 显示发送成功提示
+            alert('Answer shared successfully!');
+        });
+
+        // 复制功能
+        document.querySelector('.fa-copy').parentElement.addEventListener('click', () => {
+            const answerText = document.querySelector('.prose p').textContent;
+            navigator.clipboard.writeText(answerText).then(() => {
+                alert('Answer copied to clipboard!');
+            });
+        });
+
+        // 点赞/不点赞功能
+        document.querySelector('.fa-thumbs-up').parentElement.addEventListener('click', function() {
+            this.classList.toggle('text-blue-500');
+        });
+
+        document.querySelector('.fa-thumbs-down').parentElement.addEventListener('click', function() {
+            this.classList.toggle('text-red-500');
         });
 
         // 点击其他地方关闭下拉菜单
         document.addEventListener('click', (e) => {
-            if (!assignBtn.contains(e.target) && !assignDropdown.contains(e.target)) {
-                assignDropdown.classList.add('hidden');
+            if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
+                shareDropdown.classList.add('hidden');
             }
         });
     </script>
